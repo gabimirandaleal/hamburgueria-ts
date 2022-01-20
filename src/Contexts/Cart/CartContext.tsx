@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import toast from "react-hot-toast";
 import { api } from "../../Services/api";
 import { useAuth } from "../Auth/AuthContext";
 
@@ -71,11 +72,22 @@ export const CartProvider = ({ children }: CartProvidersProps) => {
       },
     })
     .then((_) => {
+      toast.success("Bora comer, que faz bem!", {style: {
+        borderRadius: '10px',
+        background: '#333',
+        color: '#fff',
+      },})
       setRefresh(!refresh)
+    })
+    .catch(err => {
+      toast.error("Opa, tenta de novo!", {style: {
+        borderRadius: '10px',
+        background: '#333',
+        color: '#fff',
+      },})
     })
   };
   const subQuantidade = (product: Cart) => {
-    console.log(product)
     if(product.quantidade > 1){
       product.quantidade = product.quantidade-1;
     const cartSend = {...product}
@@ -86,7 +98,19 @@ export const CartProvider = ({ children }: CartProvidersProps) => {
         },
       })
       .then((_) => {
+        toast("Tá magrinho, bora comer!", {style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },})
         setRefresh(!refresh)
+      })
+      .catch((err) =>{
+        toast.error("Opa, tenta de novo!", {style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },})
       })
     }
   };
@@ -99,13 +123,27 @@ export const CartProvider = ({ children }: CartProvidersProps) => {
         Authorization: `Bearer ${accessToken}`,
       },
     })
-    .then((_) => setRefresh(!refresh))
+    .then((_) => {
+      setRefresh(!refresh)
+    })
+    .catch((err) =>{
+      toast.error("Sinal do universo, melhor comprar!", {style: {
+        borderRadius: '10px',
+        background: '#333',
+        color: '#fff',
+      },})
+    })
   };
 
   const deleteAll = () =>{
     
     cart.forEach(function(item){
       setTimeout(function() {
+        toast.success("R.I.P carrinho ⚰️", {style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },})
         deleteProduct(item)
         setCart([])
       }, 1);

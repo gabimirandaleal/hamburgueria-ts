@@ -5,11 +5,12 @@ import * as yup from 'yup';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import {TextField} from "@mui/material"
-import { useHistory, Link}  from 'react-router-dom'
+import { useHistory, Link, Redirect}  from 'react-router-dom'
 import Buttons from "../../Components/Button";
 import circleh from "../../assets/circle-header.svg"
 import { api } from "../../Services/api";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 interface SignUpCredentials {
     email: string;
@@ -37,14 +38,22 @@ function Signup({}) {
 
 
     const onSubmitFunction = (data: SignUpCredentials) => {
-        console.log(data)
         api
         .post("/register/",  data)
         .then((response) => {
-            console.log(response.data)
+            history.push("/")
+            toast.success("Usuário cadastrado com sucesso!", {style: {
+                borderRadius: '10px',
+                background: '#333',
+                color: '#fff',
+              },})
         })
         .catch((err) => {
-            console.log(err)
+            toast.error("Erro ao cadastrar", {style: {
+                borderRadius: '10px',
+                background: '#333',
+                color: '#fff',
+              },})
         });
     }
 

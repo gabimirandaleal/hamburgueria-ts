@@ -5,6 +5,7 @@ import {
   useContext,
   useState,
 } from "react";
+import toast from "react-hot-toast";
 
 import { api } from "../../Services/api";
 
@@ -62,7 +63,11 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   const signIn = useCallback(async ({ email, password }: SignInCredentials) => {
     const response = await api.post("/login", { email, password });
     const { accessToken, user } = response.data;
-
+    toast.success("Bem-vindo, vamo comer?!", {style: {
+      borderRadius: '10px',
+      background: '#333',
+      color: '#fff',
+    },})
     localStorage.setItem("@Hamburgueria:accessToken", accessToken);
     localStorage.setItem("@Hamburgueria:user", JSON.stringify(user));
 
